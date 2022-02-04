@@ -3,13 +3,15 @@ import useCallsData from './hooks/useCallsData.js';
 import Header from './Header.jsx';
 import CallsList from './CallsList.jsx';
 import { Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
 
 const App = () => {
   const { calls, setCalls } = useCallsData();
+  const [tabIndex, setTabIndex] = useState(0);
 
   return (
     <div className='container'>
-      <Header />
+      <Header {...{ tabIndex, setTabIndex }} />
       <div className="container-view">
         <Routes>
           <Route path="/" element={<CallsList {...{ calls, header: "All Calls" }} />} />
