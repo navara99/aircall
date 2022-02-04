@@ -9,7 +9,7 @@ const useCallsData = () => {
     axios.get("https://aircall-job.herokuapp.com/activities")
       .then(({ data }) => {
         const calls = [...data];
-        setCalls({ calls });
+        setCalls(calls);
       });
 
   }, []);
