@@ -14,8 +14,8 @@ const App = () => {
       <Header {...{ tabIndex, setTabIndex }} />
       <div className="container-view">
         <Routes>
-          <Route path="/" element={<CallsList {...{ calls, header: "All Calls" }} />} />
-          <Route path="/archive" element={<CallsList {...{ calls, filter: "archive", header: "Archived Calls" }} />} />
+          <Route path="/" element={<CallsList {...{ calls, setCalls }} />} />
+          <Route path="/archive" element={<CallsList {...{ calls, setCalls, filter: "archive" }} />} />
           {/* <Route path="/inbound" element={<CallsList {...{ calls, filter: "inbound" }} />} />
           <Route path="/outbound" element={<CallsList {...{ calls, filter: "outbound" }} />} />
           <Route path="/missed" element={<CallsList {...{ calls, filter: "missed" }} />} /> */}
