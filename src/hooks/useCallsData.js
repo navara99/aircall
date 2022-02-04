@@ -6,14 +6,20 @@ const useCallsData = (setLoading) => {
 
   useEffect(() => {
 
-    setLoading(true);
-
-    axios.get("https://aircall-job.herokuapp.com/activities")
-      .then(({ data }) => {
+    const getAllCallsData = async () => {
+      try {
+        setLoading((prev) => !prev);
+        const { data } = await axios.get("https://aircall-job.herokuapp.com/activities");
         const calls = [...data];
         setCalls(calls);
-        setLoading(false);
-      });
+        setLoading((prev) => !prev);
+      } catch (err) {
+        console.log(err.message);
+      };
+
+    };
+
+    getAllCallsData();
 
   }, []);
 
