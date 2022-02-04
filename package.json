@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.3.1",
     "@mui/material": "^5.4.0",
+    "@tippyjs/react": "^4.2.6",
     "axios": "^0.25.0",
     "moment-timezone": "^0.5.34",
     "react": "^16.3.1",
