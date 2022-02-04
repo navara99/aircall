@@ -6,23 +6,21 @@ import CallDetails from './CallDetails.jsx';
 import { Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
 import { useLocation } from 'react-router';
-import Loading from './Loading.jsx';
 
 const App = () => {
   const [loading, setLoading] = useState(false);
   const { calls, setCalls } = useCallsData(setLoading);
-  const location = useLocation();
-  const [tabIndex, setTabIndex] = useState(location.pathname);
+  const { pathname } = useLocation();
+  const [tabIndex, setTabIndex] = useState(pathname === "/archive" || pathname === "/" ? pathname : false);
 
   return (
     <div className='container'>
-      <Header {...{ tabIndex, setTabIndex }} />
+      <Header    {...{ tabIndex, setTabIndex }} />
       <div className="container-view">
-        {loading && <Loading />}
         <Routes>
           <Route path="/" element={<CallsList {...{ calls, setCalls, loading, setLoading }} />} />
           <Route path="/archive" element={<CallsList {...{ calls, setCalls, filter: "archive", loading, setLoading }} />} />
-          <Route path="/call/:id" element={<CallDetails {...{ setTabIndex }} />} />
+          <Route path="/call/:id" element={<CallDetails {...{ loading, setLoading, setTabIndex }} />} />
         </Routes>
       </div>
     </div>

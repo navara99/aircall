@@ -13,6 +13,7 @@ import UnarchiveIcon from '@mui/icons-material/Unarchive';
 import PhoneMissedIcon from '@mui/icons-material/PhoneMissed';
 import VoicemailIcon from '@mui/icons-material/Voicemail';
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const iconTypeMap = {
   "answered": <CallIcon />,
@@ -40,6 +41,9 @@ function CallsListItem({ call, setCalls }) {
       });
 
     setCalls((prev) => {
+
+      // Refactor this with object spread after configuring babel
+
       const selectedCall = prev.find((call) => call.id === id);
       const otherCalls = prev.filter((call) => call.id !== selectedCall.id);
       selectedCall.is_archived = !is_archived;
@@ -57,7 +61,7 @@ function CallsListItem({ call, setCalls }) {
         </IconButton>
       }
     >
-      <ListItemButton>
+      <ListItemButton component={Link} to={`/call/${id}`}>
         <ListItemAvatar>
           <Avatar>
             {iconTypeMap[call_type]}

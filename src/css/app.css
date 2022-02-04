@@ -18,3 +18,7 @@
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, .9);
 }
 
+.container-view {
+  height: calc(100% - 125px);
+  overflow-y: auto;
+}
