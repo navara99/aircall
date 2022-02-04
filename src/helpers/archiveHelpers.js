@@ -16,10 +16,7 @@ export const toggleArchiveAll = async (setLoading, calls, setCalls, archiveAll) 
 
     setCalls((prev) => {
       return prev.map((call) => {
-        // Refactor this with object spread after configuring babel
-
-        call.is_archived = archiveAll;
-        return call;
+        return {...call, is_archived : archiveAll};
       });
     });
 
@@ -30,7 +27,7 @@ export const toggleArchiveAll = async (setLoading, calls, setCalls, archiveAll) 
 
 };
 
-export const toggleArchive = (id, is_archived, setCalls, setSelectedCall) => {
+export const toggleArchive = (id, is_archived, setCalls, setSnackBarDetails, setSelectedCall) => {
   const endPoint = `https://aircall-job.herokuapp.com/activities/${id}`;
 
   axios.post(endPoint, {
@@ -57,5 +54,10 @@ export const toggleArchive = (id, is_archived, setCalls, setSelectedCall) => {
       return prev;
     });
   };
+
+  setSnackBarDetails({
+    open: true,
+    message: `Call# ${id} successfuly ${is_archived ? "unarchived" : "archived"}`
+  });
 
 };
