@@ -5,7 +5,6 @@ const useSelectedCall = (id, setLoading) => {
   const [selectedCall, setSelectedCall] = useState({});
 
   useEffect(() => {
-
     const fetchCallDetails = async () => {
       try {
         setLoading((prev) => !prev);
@@ -20,10 +19,9 @@ const useSelectedCall = (id, setLoading) => {
     };
 
     fetchCallDetails();
-    
   }, []);
 
-  return selectedCall;
+  return { selectedCall, setSelectedCall };
 };
 
 export default useSelectedCall;

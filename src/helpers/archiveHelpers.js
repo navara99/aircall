@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const toggleArchiveAll = async (loading, setLoading, calls, setCalls, archiveAll) => {
+export const toggleArchiveAll = async (setLoading, calls, setCalls, archiveAll) => {
 
   try {
     setLoading((prev) => !prev);
@@ -26,6 +26,36 @@ export const toggleArchiveAll = async (loading, setLoading, calls, setCalls, arc
     setLoading((prev) => !prev);
   } catch (err) {
     console.log(err.message);
+  };
+
+};
+
+export const toggleArchive = (id, is_archived, setCalls, setSelectedCall) => {
+  const endPoint = `https://aircall-job.herokuapp.com/activities/${id}`;
+
+  axios.post(endPoint, {
+    is_archived: !is_archived
+  })
+    .catch((err) => {
+      console.log(err.message);
+    });
+
+  setCalls((prev) => {
+
+    // Refactor this with object spread after configuring babel
+
+    const selectedCall = prev.find((call) => call.id === id);
+    const otherCalls = prev.filter((call) => call.id !== selectedCall.id);
+    selectedCall.is_archived = !is_archived;
+    const newCallsData = [...otherCalls, selectedCall];
+    return newCallsData;
+  });
+
+  if (setSelectedCall) {
+    setSelectedCall((prev) => {
+      prev.is_archived = !prev.is_archived;
+      return prev;
+    });
   };
 
 };

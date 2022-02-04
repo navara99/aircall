@@ -9,11 +9,13 @@ import {
 } from "@mui/material";
 import CallIcon from '@mui/icons-material/Call';
 import ArchiveIcon from '@mui/icons-material/Archive';
-import UnarchiveIcon from '@mui/icons-material/Unarchive';
+import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
 import PhoneMissedIcon from '@mui/icons-material/PhoneMissed';
 import VoicemailIcon from '@mui/icons-material/Voicemail';
-import axios from "axios";
 import { Link } from "react-router-dom";
+import { toggleArchive } from "./helpers/archiveHelpers";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 const iconTypeMap = {
   "answered": <CallIcon />,
@@ -30,35 +32,18 @@ const secondaryTextPrefixMap = {
 function CallsListItem({ call, setCalls }) {
   const { id, is_archived, call_type, from, to } = call;
 
-  const toggleArchive = () => {
-    const endPoint = `https://aircall-job.herokuapp.com/activities/${id}`;
-
-    axios.post(endPoint, {
-      is_archived: !is_archived
-    })
-      .catch((err) => {
-        console.log(err.message);
-      });
-
-    setCalls((prev) => {
-
-      // Refactor this with object spread after configuring babel
-
-      const selectedCall = prev.find((call) => call.id === id);
-      const otherCalls = prev.filter((call) => call.id !== selectedCall.id);
-      selectedCall.is_archived = !is_archived;
-      const newCallsData = [...otherCalls, selectedCall];
-      return newCallsData;
-    });
-
+  const handleArchiveIconClick = () => {
+    toggleArchive(id, is_archived, setCalls);
   };
 
   return (
     <ListItem disablePadding
       secondaryAction={
-        <IconButton edge="end" onClick={toggleArchive}>
-          {is_archived ? <UnarchiveIcon /> : <ArchiveIcon />}
-        </IconButton>
+        <Tippy content={is_archived ? "Unarchive" : "Archive"} placement="left" theme="material" arrow={true}>
+          <IconButton edge="end" onClick={handleArchiveIconClick} >
+            {is_archived ? <SettingsBackupRestoreIcon /> : <ArchiveIcon />}
+          </IconButton>
+        </Tippy>
       }
     >
       <ListItemButton component={Link} to={`/call/${id}`}>

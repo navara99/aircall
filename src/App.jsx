@@ -20,7 +20,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<CallsList {...{ calls, setCalls, loading, setLoading }} />} />
           <Route path="/archive" element={<CallsList {...{ calls, setCalls, filter: "archive", loading, setLoading }} />} />
-          <Route path="/call/:id" element={<CallDetails {...{ loading, setLoading, setTabIndex }} />} />
+          <Route path="/call/:id" element={<CallDetails {...{ loading, setLoading, setTabIndex, calls, setCalls }} />} />
         </Routes>
       </div>
     </div>

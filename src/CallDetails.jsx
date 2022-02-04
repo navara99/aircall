@@ -14,32 +14,35 @@ import {
   Divider,
   IconButton
 } from "@mui/material";
+import { toggleArchive } from "./helpers/archiveHelpers";
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import EventIcon from '@mui/icons-material/Event';
 import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import BusinessIcon from '@mui/icons-material/Business';
 import TimerIcon from '@mui/icons-material/Timer';
 import ArchiveIcon from '@mui/icons-material/Archive';
-import Unarchive from "@mui/icons-material/Unarchive";
+import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
-function CallDetails({ loading, setLoading, setTabIndex }) {
+function CallDetails({ loading, setLoading, setTabIndex, setCalls }) {
   const { id } = useParams();
-  const call = useSelectedCall(id, setLoading);
+  const { selectedCall, setSelectedCall } = useSelectedCall(id, setLoading);
 
   useEffect(() => {
     setTabIndex(false);
-  });
+  }, []);
 
   return (
     <React.Fragment>
       {loading ? <Loading /> :
-        <List subheader={<ListSubheader>Call # {call.id}</ListSubheader>}>
+        <List subheader={<ListSubheader>Call # {selectedCall.id}</ListSubheader>}>
           <ListItem>
             <ListItemAvatar>
               <Avatar >
               </Avatar >
             </ListItemAvatar>
-            <ListItemText primary="Caller" secondary={call.from} />
+            <ListItemText primary="Caller" secondary={selectedCall.from} />
           </ListItem>
           <Divider />
           <ListItem>
@@ -47,7 +50,7 @@ function CallDetails({ loading, setLoading, setTabIndex }) {
               <Avatar >
               </Avatar >
             </ListItemAvatar>
-            <ListItemText primary="Reciever" secondary={call.to} />
+            <ListItemText primary="Reciever" secondary={selectedCall.to} />
           </ListItem>
           <Divider />
           <ListItem>
@@ -56,7 +59,7 @@ function CallDetails({ loading, setLoading, setTabIndex }) {
                 <EventIcon />
               </Avatar >
             </ListItemAvatar>
-            <ListItemText primary="Time & Day" secondary={dateParser(call.created_at)} />
+            <ListItemText primary="Time & Day" secondary={dateParser(selectedCall.created_at)} />
           </ListItem>
           <Divider />
           <ListItem>
@@ -65,7 +68,7 @@ function CallDetails({ loading, setLoading, setTabIndex }) {
                 <TimerIcon />
               </Avatar >
             </ListItemAvatar>
-            <ListItemText primary="Duration" secondary={call.duration + " seconds"} />
+            <ListItemText primary="Duration" secondary={selectedCall.duration + " seconds"} />
           </ListItem>
           <Divider />
           <ListItem>
@@ -74,19 +77,21 @@ function CallDetails({ loading, setLoading, setTabIndex }) {
                 {<ArchiveIcon />}
               </Avatar >
             </ListItemAvatar>
-            <ListItemText primary="Archived" secondary={call.is_archived ? "Yes" : "No"} />
-            <IconButton>
-              {call.is_archived ? <Unarchive /> : <ArchiveIcon />}
-            </IconButton>
+            <ListItemText primary="Archived" secondary={selectedCall.is_archived ? "Yes" : "No"} />
+            <Tippy content={selectedCall.is_archived ? "Unarchive" : "Archive"} placement="left" theme="material" arrow={true}>
+              <IconButton onClick={() => toggleArchive(selectedCall.id, selectedCall.is_archived, setCalls, setSelectedCall)}>
+                {selectedCall.is_archived ? <SettingsBackupRestoreIcon /> : <ArchiveIcon />}
+              </IconButton>
+            </Tippy>
           </ListItem>
           <Divider />
           <ListItem>
             <ListItemAvatar>
               <Avatar >
-                {call.direction === "inbound" ? <CallReceivedIcon /> : <CallMadeIcon />}
+                {selectedCall.direction === "inbound" ? <CallReceivedIcon /> : <CallMadeIcon />}
               </Avatar >
             </ListItemAvatar>
-            <ListItemText primary="Direction" secondary={call.direction} />
+            <ListItemText primary="Direction" secondary={selectedCall.direction} />
           </ListItem>
           <Divider />
           <ListItem>
@@ -95,7 +100,7 @@ function CallDetails({ loading, setLoading, setTabIndex }) {
                 <EventIcon />
               </Avatar >
             </ListItemAvatar>
-            <ListItemText primary="Call Type" secondary={call.call_type} />
+            <ListItemText primary="Call Type" secondary={selectedCall.call_type} />
           </ListItem>
           <Divider />
           <ListItem>
@@ -104,7 +109,7 @@ function CallDetails({ loading, setLoading, setTabIndex }) {
                 <BusinessIcon />
               </Avatar >
             </ListItemAvatar>
-            <ListItemText primary="Via" secondary={call.via} />
+            <ListItemText primary="Via" secondary={selectedCall.via} />
           </ListItem>
           <Divider />
         </List>}

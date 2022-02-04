@@ -26,7 +26,7 @@ function CallsList({ calls, setCalls, filter, loading, setLoading, setTabIndex }
 
   const handleAllCalls = async () => {
     const archiveAll = filter ? false : true;
-    await toggleArchiveAll(loading, setLoading, calls, setCalls, archiveAll);
+    await toggleArchiveAll(setLoading, calls, setCalls, archiveAll);
   };
 
   const allArchiveToggleBtn = () => {
