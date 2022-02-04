@@ -7,18 +7,16 @@ import { Route, Routes } from 'react-router-dom';
 const App = () => {
   const { calls, setCalls } = useCallsData();
 
-  console.log(calls);
-  
   return (
     <div className='container'>
       <Header />
       <div className="container-view">
         <Routes>
-          <Route path="/" element={<CallsList {...{ calls }} />} />
-          <Route path="/archive" element={<CallsList {...{ calls, filter: "archive" }} />} />
-          <Route path="/inbound" element={<CallsList {...{ calls, filter: "inbound" }} />} />
+          <Route path="/" element={<CallsList {...{ calls, header: "All Calls" }} />} />
+          <Route path="/archive" element={<CallsList {...{ calls, filter: "archive", header: "Archived Calls" }} />} />
+          {/* <Route path="/inbound" element={<CallsList {...{ calls, filter: "inbound" }} />} />
           <Route path="/outbound" element={<CallsList {...{ calls, filter: "outbound" }} />} />
-          <Route path="/missed" element={<CallsList {...{ calls, filter: "missed" }} />} />
+          <Route path="/missed" element={<CallsList {...{ calls, filter: "missed" }} />} /> */}
           <Route path="/call/:id" element={<div>Call Details</div>} />
         </Routes>
       </div>
