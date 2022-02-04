@@ -11,7 +11,7 @@ const useSelectedCall = (id, setLoading) => {
         const endPoint = `https://aircall-job.herokuapp.com/activities/${id}`;
         const { data } = await axios.get(endPoint);
         setSelectedCall(data);
-        await new Promise((resolve) => setTimeout(resolve, 300));
+        await new Promise((resolve) => setTimeout(resolve, 400));
         setLoading((prev) => !prev);
       } catch (err) {
         console.log(err.messsage);

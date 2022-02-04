@@ -9,7 +9,7 @@ import { ListItemText } from "@mui/material";
 import { toggleArchiveAll } from "./helpers/archiveHelpers.js";
 import Loading from "./Loading.jsx";
 
-function CallsList({ calls, setCalls, filter, loading, setLoading, setTabIndex }) {
+function CallsList({ calls, setCalls, filter, loading, setLoading, setTabIndex, setSnackBarDetails }) {
   const filteredCalls = useCallsFilter(calls, filter);
 
   const generateCallsList = () => {
@@ -18,7 +18,7 @@ function CallsList({ calls, setCalls, filter, loading, setLoading, setTabIndex }
       return (
         <div key={call.id}>
           <Divider >{dateParser(call.created_at)}</Divider>
-          <CallsListItem {...{ call, setCalls, setTabIndex }} />
+          <CallsListItem {...{ call, setCalls, setTabIndex, setSnackBarDetails }} />
         </div>
       );
     });

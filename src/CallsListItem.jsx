@@ -29,11 +29,11 @@ const secondaryTextPrefixMap = {
   "voicemail": "left voicemail for "
 };
 
-function CallsListItem({ call, setCalls }) {
+function CallsListItem({ call, setCalls, setSnackBarDetails }) {
   const { id, is_archived, call_type, from, to } = call;
 
   const handleArchiveIconClick = () => {
-    toggleArchive(id, is_archived, setCalls);
+    toggleArchive(id, is_archived, setCalls, setSnackBarDetails);
   };
 
   return (
