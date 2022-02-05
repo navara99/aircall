@@ -4,6 +4,7 @@ module.exports = {
   output: {
     publicPath: '/'
   },
+  devtool: "eval-cheap-source-map",
   module: {
     rules: [
       {
