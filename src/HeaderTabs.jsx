@@ -9,9 +9,18 @@ function HeaderTabs({ tabIndex, setTabIndex }) {
   };
 
   return (
-    <Tabs value={tabIndex} onChange={handleTabChange} style={{ width: "100%" }}>
-      <Tab label="Activity" style={{ width: "50%" }} component={Link} to="/" value="/" />
-      <Tab label="Archived" style={{ width: "50%" }} component={Link} to="/archive" value="/archive" />
+    <Tabs
+      value={tabIndex}
+      onChange={handleTabChange}
+      style={{ width: "100%" }}
+      TabIndicatorProps={{
+        style: {
+          backgroundColor:  "#2ac420",
+        }
+      }}
+    >
+      <Tab label={<span style={{color:"#2ac420"}}>Activity</span>} style={{ width: "50%" }} component={Link} to="/" value="/" />
+      <Tab label={<span style={{color:"#2ac420"}}>Archived</span>} style={{ width: "50%" }} component={Link} to="/archive" value="/archive" />
     </Tabs>
   )
 };

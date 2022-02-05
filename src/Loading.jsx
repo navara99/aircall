@@ -6,7 +6,7 @@ function Loading() {
 
   return (
     <div className="loading-wrapper">
-      <CircularProgress />
+      <CircularProgress style={{ color: "#2ac420" }} />
     </div>
   )
 };

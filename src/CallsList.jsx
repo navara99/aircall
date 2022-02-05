@@ -2,12 +2,13 @@ import React from "react";
 import { List, Divider, ListItem, ListItemButton, ListItemIcon } from "@mui/material";
 import CallsListItem from "./CallsListItem.jsx";
 import ArchiveIcon from '@mui/icons-material/Archive';
-import UnarchiveIcon from '@mui/icons-material/Unarchive';
+import RestoreIcon from '@mui/icons-material/Restore';
 import { dateParser } from "./helpers/dateHelpers.js";
 import useCallsFilter from "./hooks/useCallFilter.js";
 import { ListItemText } from "@mui/material";
 import { toggleArchiveAll } from "./helpers/archiveHelpers.js";
 import Loading from "./Loading.jsx";
+import Empty from "./Empty.jsx";
 
 function CallsList({ calls, setCalls, filter, loading, setLoading, setTabIndex, setSnackBarDetails }) {
   const filteredCalls = useCallsFilter(calls, filter);
@@ -17,7 +18,7 @@ function CallsList({ calls, setCalls, filter, loading, setLoading, setTabIndex, 
     return filteredCalls.map((call) => {
       return (
         <div key={call.id}>
-          <Divider >{dateParser(call.created_at)}</Divider>
+          <Divider style={{ color: "#2ac420" }} textAlign="left">{dateParser(call.created_at)}</Divider>
           <CallsListItem {...{ call, setCalls, setTabIndex, setSnackBarDetails }} />
         </div>
       );
@@ -26,7 +27,7 @@ function CallsList({ calls, setCalls, filter, loading, setLoading, setTabIndex, 
 
   const handleAllCalls = async () => {
     const archiveAll = filter ? false : true;
-    await toggleArchiveAll(setLoading, calls, setCalls, archiveAll);
+    await toggleArchiveAll(setLoading, calls, setCalls, archiveAll, setSnackBarDetails);
   };
 
   const allArchiveToggleBtn = () => {
@@ -39,16 +40,16 @@ function CallsList({ calls, setCalls, filter, loading, setLoading, setTabIndex, 
               onClick={handleAllCalls}
               style={{
                 borderRadius: "200px",
-                border: "1px solid black"
+                border: "2px solid #2ac420"
               }}>
-              <ListItemIcon>{filter ? <UnarchiveIcon /> : <ArchiveIcon />}</ListItemIcon >
+              <ListItemIcon>{filter ? <RestoreIcon /> : <ArchiveIcon />}</ListItemIcon >
               <ListItemText
-                primary={filter ? "Unarchive all calls" : "Archive all calls"}
+                primary={filter ? "Restore all calls" : "Archive all calls"}
               />
             </ListItemButton >
           </ListItem >
           {generateCallsList()}
-        </List > : "Nothing"}
+        </List > : <Empty message={filter ? " You have not archived any calls." : "Call Log is empty"} />}
       </React.Fragment >
     );
 

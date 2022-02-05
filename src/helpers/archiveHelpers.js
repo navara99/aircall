@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const toggleArchiveAll = async (setLoading, calls, setCalls, archiveAll) => {
+export const toggleArchiveAll = async (setLoading, calls, setCalls, archiveAll, setSnackBarDetails) => {
 
   try {
     setLoading((prev) => !prev);
@@ -16,11 +16,17 @@ export const toggleArchiveAll = async (setLoading, calls, setCalls, archiveAll) 
 
     setCalls((prev) => {
       return prev.map((call) => {
-        return {...call, is_archived : archiveAll};
+        return { ...call, is_archived: archiveAll };
       });
     });
 
+    setSnackBarDetails({
+      open: true,
+      message: `Successfully ${archiveAll ? "archived" : "restored"} all calls`
+    });
+
     setLoading((prev) => !prev);
+
   } catch (err) {
     console.log(err.message);
   };
@@ -38,13 +44,10 @@ export const toggleArchive = (id, is_archived, setCalls, setSnackBarDetails, set
     });
 
   setCalls((prev) => {
-
-    // Refactor this with object spread after configuring babel
-
     const selectedCall = prev.find((call) => call.id === id);
     const otherCalls = prev.filter((call) => call.id !== selectedCall.id);
-    selectedCall.is_archived = !is_archived;
-    const newCallsData = [...otherCalls, selectedCall];
+    const selectedCallNew = { ...selectedCall, is_archived: !is_archived };
+    const newCallsData = [...otherCalls, selectedCallNew];
     return newCallsData;
   });
 
@@ -57,7 +60,7 @@ export const toggleArchive = (id, is_archived, setCalls, setSnackBarDetails, set
 
   setSnackBarDetails({
     open: true,
-    message: `Call# ${id} successfuly ${is_archived ? "unarchived" : "archived"}`
+    message: `Call# ${id} successfuly ${is_archived ? "restored" : "archived"}`
   });
 
 };

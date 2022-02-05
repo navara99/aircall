@@ -5,11 +5,9 @@ import { useEffect } from "react";
 import { dateParser } from "./helpers/dateHelpers";
 import Loading from "./Loading.jsx";
 import {
-  Avatar,
   ListItem,
   ListItemText,
   List,
-  ListItemAvatar,
   ListSubheader,
   Divider,
   IconButton
@@ -21,13 +19,17 @@ import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import BusinessIcon from '@mui/icons-material/Business';
 import TimerIcon from '@mui/icons-material/Timer';
 import ArchiveIcon from '@mui/icons-material/Archive';
-import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
+import RestoreIcon from '@mui/icons-material/Restore';
 import Tippy from "@tippyjs/react";
+import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 import "tippy.js/dist/tippy.css";
+import { ListItemIcon } from "@mui/material";
+import useCallConstants from "./hooks/useCallConstants";
 
 function CallDetails({ loading, setLoading, setTabIndex, setCalls, setSnackBarDetails, }) {
   const { id } = useParams();
   const { selectedCall, setSelectedCall } = useSelectedCall(id, setLoading);
+  const { iconTypeMap, secondaryTextPrefixMap } = useCallConstants();
 
   useEffect(() => {
     setTabIndex(false);
@@ -38,53 +40,45 @@ function CallDetails({ loading, setLoading, setTabIndex, setCalls, setSnackBarDe
   };
 
   const callInfo = () => {
-    const archiveIcon = selectedCall.is_archived ? <SettingsBackupRestoreIcon /> : <ArchiveIcon />
+    const archiveIcon = selectedCall.is_archived ? <RestoreIcon /> : <ArchiveIcon />
 
     return (
       Object.keys(selectedCall).length > 0 &&
       <List subheader={<ListSubheader>Call # {selectedCall.id}</ListSubheader>}>
         <ListItem>
-          <ListItemAvatar>
-            <Avatar >
-            </Avatar >
-          </ListItemAvatar>
-          <ListItemText primary="Caller" secondary={selectedCall.from} />
+          <ListItemIcon>
+            <ConnectWithoutContactIcon />
+          </ListItemIcon>
+          <ListItemText primary={selectedCall.from} secondary={secondaryTextPrefixMap[selectedCall.call_type] + selectedCall.to} />
         </ListItem>
         <Divider />
         <ListItem>
-          <ListItemAvatar>
-            <Avatar >
-            </Avatar >
-          </ListItemAvatar>
-          <ListItemText primary="Reciever" secondary={selectedCall.to} />
+          <ListItemIcon>
+            {iconTypeMap[selectedCall.call_type]}
+          </ListItemIcon>
+          <ListItemText primary="Call Type" secondary={selectedCall.call_type} />
         </ListItem>
         <Divider />
         <ListItem>
-          <ListItemAvatar>
-            <Avatar >
-              <EventIcon />
-            </Avatar >
-          </ListItemAvatar>
+          <ListItemIcon>
+            <EventIcon />
+          </ListItemIcon>
           <ListItemText primary="Time & Day" secondary={dateParser(selectedCall.created_at)} />
         </ListItem>
         <Divider />
         <ListItem>
-          <ListItemAvatar>
-            <Avatar >
-              <TimerIcon />
-            </Avatar >
-          </ListItemAvatar>
+          <ListItemIcon>
+            <TimerIcon />
+          </ListItemIcon>
           <ListItemText primary="Duration" secondary={selectedCall.duration + " seconds"} />
         </ListItem>
         <Divider />
         <ListItem>
-          <ListItemAvatar>
-            <Avatar >
-              {<ArchiveIcon />}
-            </Avatar >
-          </ListItemAvatar>
+          <ListItemIcon>
+            {<ArchiveIcon />}
+          </ListItemIcon>
           <ListItemText primary="Archived" secondary={selectedCall.is_archived ? "Yes" : "No"} />
-          <Tippy content={selectedCall.is_archived ? "Unarchive" : "Archive"} placement="left" theme="material" arrow={true}>
+          <Tippy content={selectedCall.is_archived ? "Restore" : "Archive"} placement="left" theme="material" arrow={true}>
             <IconButton onClick={handleDetailsArchiveToggle}>
               {archiveIcon}
             </IconButton>
@@ -92,29 +86,17 @@ function CallDetails({ loading, setLoading, setTabIndex, setCalls, setSnackBarDe
         </ListItem>
         <Divider />
         <ListItem>
-          <ListItemAvatar>
-            <Avatar >
-              {selectedCall.direction === "inbound" ? <CallReceivedIcon /> : <CallMadeIcon />}
-            </Avatar >
-          </ListItemAvatar>
+          <ListItemIcon>
+            {selectedCall.direction === "inbound" ? <CallReceivedIcon /> : <CallMadeIcon />}
+          </ListItemIcon>
           <ListItemText primary="Direction" secondary={selectedCall.direction} />
         </ListItem>
         <Divider />
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar >
-              <EventIcon />
-            </Avatar >
-          </ListItemAvatar>
-          <ListItemText primary="Call Type" secondary={selectedCall.call_type} />
-        </ListItem>
         <Divider />
         <ListItem>
-          <ListItemAvatar>
-            <Avatar >
-              <BusinessIcon />
-            </Avatar >
-          </ListItemAvatar>
+          <ListItemIcon>
+            <BusinessIcon />
+          </ListItemIcon>
           <ListItemText primary="Via" secondary={selectedCall.via} />
         </ListItem>
         <Divider />

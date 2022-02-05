@@ -28,12 +28,13 @@ const App = () => {
     <div className='container'>
       <Snackbar
         open={snackBarDetails.open}
-        autoHideDuration={3000}
+        autoHideDuration={600}
         onClose={handleSnackBarClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        style={{ height: "100%"}}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         {
-          <Alert severity="success" sx={{ width: "100%" }}>
+          <Alert severity="success" variant="filled" sx={{ width: "100%", borderRadius: "200px" }}>
             {snackBarDetails.message}
           </Alert>}
       </Snackbar>
