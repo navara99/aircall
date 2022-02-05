@@ -3,12 +3,12 @@ import { List, Divider, ListItem, ListItemButton, ListItemIcon } from "@mui/mate
 import CallsListItem from "./CallsListItem.jsx";
 import ArchiveIcon from '@mui/icons-material/Archive';
 import RestoreIcon from '@mui/icons-material/Restore';
-import { dateParser } from "./helpers/dateHelpers.js";
-import useCallsFilter from "./hooks/useCallFilter.js";
+import { dateParser } from "../../helpers/dateHelpers.js";
+import useCallsFilter from "../../hooks/useCallFilter.js";
 import { ListItemText } from "@mui/material";
-import { toggleArchiveAll } from "./helpers/archiveHelpers.js";
-import Loading from "./Loading.jsx";
-import Empty from "./Empty.jsx";
+import { toggleArchiveAll } from "../../helpers/archiveHelpers.js";
+import Loading from "../Loading/Loading.jsx";
+import Empty from "../Empty/Empty.jsx";
 
 function CallsList({ calls, setCalls, filter, loading, setLoading, setTabIndex, setSnackBarDetails }) {
   const filteredCalls = useCallsFilter(calls, filter);
@@ -27,7 +27,7 @@ function CallsList({ calls, setCalls, filter, loading, setLoading, setTabIndex, 
 
   const handleAllCalls = async () => {
     const archiveAll = filter ? false : true;
-    await toggleArchiveAll(setLoading, calls, setCalls, archiveAll, setSnackBarDetails);
+    await toggleArchiveAll(setLoading, calls, setCalls, archiveAll);
   };
 
   const allArchiveToggleBtn = () => {
@@ -57,7 +57,10 @@ function CallsList({ calls, setCalls, filter, loading, setLoading, setTabIndex, 
 
   return (
     <React.Fragment>
-      {!loading ? allArchiveToggleBtn() : <Loading />}
+      {!loading ? allArchiveToggleBtn() :
+        <Loading
+          message={filteredCalls.length ? `${filter ? "Restoring" : "Archiving"} all calls...` : ""}
+        />}
     </React.Fragment >
   )
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import useCallsData from './hooks/useCallsData.js';
-import Header from './Header.jsx';
-import CallsList from './CallsList.jsx';
-import CallDetails from './CallDetails.jsx';
+import Header from './Components/Header/Header.jsx';
+import CallsList from './Components/Calls/CallsList.jsx';
+import CallDetails from './Components/Calls/CallDetails.jsx';
 import { Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
 import { useLocation } from 'react-router';
@@ -30,8 +30,8 @@ const App = () => {
         open={snackBarDetails.open}
         autoHideDuration={600}
         onClose={handleSnackBarClose}
-        style={{ height: "100%"}}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        style={{ maxWidth: 300 }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         {
           <Alert severity="success" variant="filled" sx={{ width: "100%", borderRadius: "200px" }}>

@@ -1,9 +1,9 @@
 import React from "react";
 import { useParams } from "react-router";
-import useSelectedCall from "./hooks/useSelectedCall";
+import useSelectedCall from "../../hooks/useSelectedCall";
 import { useEffect } from "react";
-import { dateParser } from "./helpers/dateHelpers";
-import Loading from "./Loading.jsx";
+import { dateParser } from "../../helpers/dateHelpers";
+import Loading from "../Loading/Loading.jsx";
 import {
   ListItem,
   ListItemText,
@@ -12,7 +12,7 @@ import {
   Divider,
   IconButton
 } from "@mui/material";
-import { toggleArchive } from "./helpers/archiveHelpers";
+import { toggleArchive } from "../../helpers/archiveHelpers";
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import EventIcon from '@mui/icons-material/Event';
 import CallReceivedIcon from '@mui/icons-material/CallReceived';
@@ -24,7 +24,7 @@ import Tippy from "@tippyjs/react";
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 import "tippy.js/dist/tippy.css";
 import { ListItemIcon } from "@mui/material";
-import useCallConstants from "./hooks/useCallConstants";
+import useCallConstants from "../../hooks/useCallConstants";
 
 function CallDetails({ loading, setLoading, setTabIndex, setCalls, setSnackBarDetails, }) {
   const { id } = useParams();

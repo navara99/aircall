@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const toggleArchiveAll = async (setLoading, calls, setCalls, archiveAll, setSnackBarDetails) => {
+export const toggleArchiveAll = async (setLoading, calls, setCalls, archiveAll) => {
 
   try {
     setLoading((prev) => !prev);
@@ -18,11 +18,6 @@ export const toggleArchiveAll = async (setLoading, calls, setCalls, archiveAll, 
       return prev.map((call) => {
         return { ...call, is_archived: archiveAll };
       });
-    });
-
-    setSnackBarDetails({
-      open: true,
-      message: `Successfully ${archiveAll ? "archived" : "restored"} all calls`
     });
 
     setLoading((prev) => !prev);

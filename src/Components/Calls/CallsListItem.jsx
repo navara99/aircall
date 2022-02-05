@@ -8,11 +8,11 @@ import {
 import ArchiveIcon from '@mui/icons-material/Archive';
 import Restore from "@mui/icons-material/Restore";
 import { Link } from "react-router-dom";
-import { toggleArchive } from "./helpers/archiveHelpers";
+import { toggleArchive } from "../../helpers/archiveHelpers";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { ListItemIcon } from "@mui/material";
-import useCallConstants from "./hooks/useCallConstants";
+import useCallConstants from "../../hooks/useCallConstants";
 
 function CallsListItem({ call, setCalls, setSnackBarDetails }) {
   const { id, is_archived, call_type, from, to } = call;
